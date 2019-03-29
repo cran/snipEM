@@ -18,13 +18,12 @@ ldmvnorm(x, mu, Sigma, onNA=0)
 \author{Alessio Farcomeni \email{alessio.farcomeni@uniroma1.it}, Andy
 Leung \email{andy.leung@stat.ubc.ca}}
 \examples{
-\dontrun{
 x <- matrix(rnorm(1000),100, 10)
 u <- matrix(rbinom(1000, 1, 0.1), 100, 10)
 x[ u == 1 ] <- NA
 mu <- rep(0,10)
 Sigma <- diag(10)
 ldmvnorm(x, mu, Sigma)
-}}
+}
 
 

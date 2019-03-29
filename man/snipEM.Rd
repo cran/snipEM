@@ -64,32 +64,22 @@ Farcomeni, A. (2014) Robust constrained clustering in presence of entry-wise out
 Leung \email{andy.leung@stat.ubc.ca}}
 \seealso{
   \code{\link{sclust}}, \code{\link{stEM}},
-  \code{\link{generate.cellcontam}}, \code{\link{sumlog}},
+    \code{\link{sumlog}},
   \code{\link{ldmvnorm}} 
 }
 \examples{
-\dontrun{
-# 10\% cellwise outliers
 n=100
-p=10
-Xc <- generate.cellcontam(100, 10, 100, 5, 0.10)
-A <- Xc$A   # true correlation matrix
-Uc <- Xc$u  # (true outlier) binary matrix 
-Xc <- Xc$x
+p=5
+Xc <- matrix(rnorm(100*10),100,5)
 
 # initial V 
 V <- matrix(1,n,p)
 V[!is.na(match(as.vector(Xc),boxplot(as.vector(Xc),plot=FALSE)$out))] <- 0
 Xna <- Xc 
 Xna[ which( V == 0) ] <- NA
-resEMVE <- emve(Xna)
-V <- snipEM.initialV(Xc, V, resEMVE@mu, resEMVE@S)$V
 
-# Performance in LRT distance
 resSEM <- snipEM(Xc, V)
-slrt(resSEM$S, A)
-slrt(cov(Xc), A)
-}
+
 }
 
 

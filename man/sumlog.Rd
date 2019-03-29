@@ -28,7 +28,6 @@ on latent Markov subject-specific parameters. \emph{Statistics and Computing}, \
 \author{Alessio Farcomeni \email{alessio.farcomeni@uniroma1.it}, Andy
 Leung \email{andy.leung@stat.ubc.ca}}
 \examples{
-\dontrun{
 # complete underflow without sumlog 
 x <- c(-750,-752)
 log(sum(exp(x)))
@@ -44,6 +43,6 @@ x <- c(log(3),log(2))
 log(5)
 log(sum(exp(x)))
 sumlog(x)
-}}
+}
 
 

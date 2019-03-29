@@ -51,43 +51,24 @@ minimum covariance determinant estimator, \emph{Technometrics}, \bold{41}, 212-2
 Leung \email{andy.leung@stat.ubc.ca}}
 \seealso{
   \code{\link{sclust}}, \code{\link{snipEM}},
-  \code{\link{generate.casecontam}},
-  \code{\link{generate.cellcontam}}, \code{\link{emve}}, \code{\link{sumlog}},
+    \code{\link{sumlog}},
   \code{\link{ldmvnorm}} 
 }
 \examples{
-\dontrun{
-# 10\% cellwise outliers
-Xc <- generate.cellcontam(100, 10, 100, 5, 0.10)
-A <- Xc$A   # true correlation matrix
-Uc <- Xc$u  # (true outlier) binary matrix 
-Xc <- Xc$x
-
-# 5\% case-wise outliers
-Xct <- generate.casecontam(100, 10, 100, 10, 0.05)
-Xc <- rbind(Xc, Xct$x[ rowSums(Xct$u == 1) == 10,])
-trim <- rep(1,105)
-trim[101:105] <- 0  # (true casewise outlier) binary vector
-Uc <- rbind(Uc, matrix(1,5,10))
+set.seed(1234)
+X=matrix(rnorm(100*10),100,5)
+X[1:5,]=50
+X[6,1]=150
 
 # initial V
-V <- matrix(1, 105, 10)
-# identify rows to be trimmed
-km <- kmeans(Xc,2)$clust
-wtrim <- which(km==which.min(table(km)))
-V[wtrim,] <- 0
-Vtmp <- V[-wtrim,]
+V <- matrix(1, 100, 5)
+V[1:5,]=0
+Vtmp <- V[-c(1:5),]
 
 # identify cells to be snipped
-Vtmp[!is.na(match(as.vector(Xc[-wtrim,]),boxplot(as.vector(Xc[-wtrim,]),plot=FALSE)$out))] <- 0
-Xna <- Xc[-wtrim,]
-Xna[ which( Vtmp == 0) ] <- NA
-resEMVE <- emve(Xna)
-Vtmp <- snipEM.initialV(Xc[-wtrim,], Vtmp, resEMVE@mu, resEMVE@S)
-V[-wtrim,] <- Vtmp$V
+Vtmp[!is.na(match(as.vector(X[-c(1:5),]),boxplot(as.vector(X[-c(1:5),]),plot=FALSE)$out))] <- 0
+V[-c(1:5),] <- Vtmp
 
-# Performance in LRT distance
-resSTEM <- stEM(Xc, V)
-slrt(resSTEM$S, A)
-slrt(cov(Xc), A)
-}}
+resSTEM <- stEM(X, V)
+
+}

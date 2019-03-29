@@ -55,21 +55,21 @@ Farcomeni, A. (2014) Robust constrained clustering in presence of entry-wise out
 Leung \email{andy.leung@stat.ubc.ca}}
 \seealso{
   \code{\link{snipEM}}, \code{\link{stEM}},
-  \code{\link{generate.cellcontam}}, \code{\link{sumlog}},
+    \code{\link{sumlog}},
   \code{\link{ldmvnorm}} 
 }
 \examples{
-\dontrun{
-X <- matrix(NA,1000,5)
+set.seed(1234)
+X <- matrix(NA,200,5)
 # two clusters
 k <- 2
-X[1:500,] <- rnorm(500*5)
-X[501:1000,] <- rnorm(500*5,15)
-R <- rep(c(1,2), each=500)
+X[1:100,] <- rnorm(100*5)
+X[101:200,] <- rnorm(100*5,15)
+R <- rep(c(1,2), each=100)
 
 # 5\% cellwise outliers
-s <- sample(1000*5,1000*5*0.05)
-X[s] <- runif(1000*5*0.05,-100,100)
+s <- sample(200*5,200*5*0.05)
+X[s] <- runif(200*5*0.05,-100,100)
 V <- X
 V[s] <- 0
 V[-s] <- 1
@@ -83,7 +83,6 @@ Rinit <- kmeans(X,2)$clust
 sc <- sclust(X,2,Vinit,Rinit)
 table(R,Rinit)
 table(R,sc$R)
-}
 }
 
 

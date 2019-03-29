@@ -1,6 +1,6 @@
 useDynLib(snipEM, .registration=TRUE)
-import(Rcpp, GSE, MASS, mvtnorm)
-
+import(Rcpp, MASS, mvtnorm)
+importFrom("stats", "cov", "quantile", "var")
 exportPattern("^[[:alpha:]]+")
 
 export(
